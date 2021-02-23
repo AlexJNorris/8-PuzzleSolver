@@ -347,7 +347,7 @@ bool isSolvable(char puzzle[3][3]) // borrowed from https://www.geeksforgeeks.or
 
 	// return true if inversion count is even.
 	return (invCount % 2 == 0);
-}
+}  // borrowed from https://www.geeksforgeeks.org/check-instance-8-puzzle-solvable/
 
 vector<string> a_star(char p[3][3], char g[3][3]) {
 	int states = 0;
