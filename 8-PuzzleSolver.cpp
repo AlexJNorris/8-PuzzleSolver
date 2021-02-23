@@ -400,6 +400,8 @@ vector<string> a_star(char p[3][3], char g[3][3]) {
 		gee = q.front();
 		q.pop();
 		qMan.pop();
+		
+
 
 		bestTest = -1;
 		testWin = "";
@@ -407,12 +409,17 @@ vector<string> a_star(char p[3][3], char g[3][3]) {
 
 		//printArray(p);
 		string_toMatrix(test,gee);
+		if (!testIfVisitedState(testVec, matrix_toString(test))) {
+			path.push_back(matrix_toString(test));
+			testVec.push_back(matrix_toString(test));
+
+		}
+
 		x = findx_of_e(test);
 		y = findy_of_e(test);
 		//printArray(test);
 		
 
-		path.push_back(matrix_toString(test));
 
 		
 		states++;
@@ -430,7 +437,13 @@ vector<string> a_star(char p[3][3], char g[3][3]) {
 			for (int i = 1; i < 5; i++) {
 
 				if (validMoves[validKey][i] == "no") { //If possible routes exhausted
-					if (testWin == "") { break; }
+					if (testWin == "") {
+						path.pop_back();
+						q.push(path[path.size()-1]);
+						string_toMatrix(t, path[path.size()-1]);
+						qMan.push(manhattan_distance(t, g));
+						//cout << path[path.size()-1];
+						break; }
 					if (winCnt == 1) {
 						testValue = states + test_move(test, t, g, xy_to_string(x, y), testWin);
 						q.push(matrix_toString(t));
@@ -446,19 +459,13 @@ vector<string> a_star(char p[3][3], char g[3][3]) {
 							break;
 						}
 					}
-					else {
-						path.pop_back();
-						q.push(path[path.size()]);
-						cout << path[path.size()];
-						break;
-					}
 					break;
 				}
 
 
-
-				testValue = states + test_move(test, t, g, xy_to_string(x, y), validMoves[validKey][i]); // f(n) = h(n) + g(n)
-
+				if (validMoves[validKey][i] != "no") {
+					testValue = states + test_move(test, t, g, xy_to_string(x, y), validMoves[validKey][i]); // f(n) = h(n) + g(n)
+				}
 				//printArray(test);
 				//cout << " " << testValue;
 
@@ -477,11 +484,9 @@ vector<string> a_star(char p[3][3], char g[3][3]) {
 						wins += testWin;
 					}
 					//cout << testWin;
-					testVec.push_back(matrix_toString(t));
 				}
 
-				if (i == 4) { //If possible routes exhausted
-					if (testWin == "") { break; }
+				if (i == 4 && testWin != "") { //If possible routes exhausted
 					if (winCnt == 1) {
 						testValue = states + test_move(test, t, g, xy_to_string(x, y), testWin);
 						q.push(matrix_toString(t));
@@ -499,8 +504,10 @@ vector<string> a_star(char p[3][3], char g[3][3]) {
 					}
 					else {
 						path.pop_back();
-						q.push(path[path.size()]);
-						cout << path[path.size()];
+						q.push(path[path.size()-1]);
+						string_toMatrix(t, path[path.size()-1]);
+						qMan.push(manhattan_distance(t, g));
+						//cout << path[path.size()-1];
 						break;
 					}
 				}
