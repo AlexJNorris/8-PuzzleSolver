@@ -513,9 +513,10 @@ vector<string> a_star(char p[3][3], char g[3][3]) {
 		}
 
 	}
-	vector<string> failure;
-	cout << endl << " FAILURE AFTER : " << states << " STATES "<< endl;
-	return failure;
+	cout << endl << " FAILURE AFTER : " << states << " STATES "<< endl
+		<< "FINAL STATE:";
+	printArray(test);
+	return path;
 }
 
 int main() {
