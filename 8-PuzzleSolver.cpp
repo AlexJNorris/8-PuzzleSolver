@@ -426,7 +426,7 @@ vector<string> a_star(char p[3][3], char g[3][3]) {
 		
 
 		if (gee == goal) {
-			cout << "SOLVED IN : " << states << " states" << endl
+			cout << "SOLVED IN : " << path.size() << " iterations" << endl
 			<< "FINAL STATE:";
 			printArray(test);
 			return path;
@@ -465,6 +465,7 @@ vector<string> a_star(char p[3][3], char g[3][3]) {
 
 				if (validMoves[validKey][i] != "no") {
 					testValue = states + test_move(test, t, g, xy_to_string(x, y), validMoves[validKey][i]); // f(n) = h(n) + g(n)
+
 				}
 				//printArray(test);
 				//cout << " " << testValue;
@@ -555,7 +556,15 @@ int main() {
 		}
 		if (isSolvable(puzzle)) {
 		//	if (i == 2) {
-				a_star(puzzle, goal);
+				vector<string> a = a_star(puzzle, goal);
+				cout << endl << "solution = { ";
+				for (int i = 0; i < a.size(); i++) {
+					cout << a[i];
+					if (i != a.size() - 1) {
+						cout << ", ";
+					}
+				}
+				cout << "}" << endl;
 		//	}
 		}
 		else {
